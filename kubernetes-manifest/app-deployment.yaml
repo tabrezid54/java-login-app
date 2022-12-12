@@ -19,10 +19,10 @@ spec:
             - containerPort: 8080
           env:  
             - name: DB_HOST   
-              value:
+              value: "mysql"
             - name: DB_NAME  
-              value :
+              value : "UserDB"
             - name: DB_USERNAME  
-              value :
+              value : "tab"
             - name: DB_PASSWORD 
-              value :
+              value : "password"
