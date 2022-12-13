@@ -18,8 +18,6 @@ spec:
     spec:
       containers:
         - image: mysql:5.7 
-          args:
-            - "--ignore-db-dir=lost+found" # Workaround for https://github.com/docker-library/mysql/issues/186
           name: mysql
           env:
             - name: MYSQL_ROOT_PASSWORD
