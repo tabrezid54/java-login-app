@@ -42,12 +42,14 @@ pipeline {
             }
                 
                 sh 'docker push tabrezid54/${imageName}'
+                
             }
         
         }
-        stage('Deploy K8 Resources') {
+        stage('Doeploy K8s Resorces') {
             steps {
-                sh 'kubectl create -f $WORKSPCE/kubernetes-manifest/.'
+                sh 'kubectl create -f $WORKSPACE/kubernetes-manifest/.'
+                
             }
         }
     }
