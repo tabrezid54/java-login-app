@@ -21,32 +21,26 @@ pipeline {
             }
         
         }
-        stage('Create Docker Image') {
+        stage('Create Docker Image With Tag') {
             steps {
                 script {
-                   dockerImage = docker.build("${imageName}" ,"$WORKSPACE")  
+                   dockerImage = docker.build("${dockerHubUser}/${imageName}" ,"$WORKSPACE")  
                 }
             }
         
         }
-        stage('Docker Tag') {
-            steps {
-                sh 'docker tag ${imageName} ${dockerHubUser}/${imageName}'
-                
-            }
-        }
-        stage('Push') {
+        stage('Push to DockerHub') {
             steps {
                 withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhub')]) {
                 sh 'docker login -u ${dockerHubUser} -p ${dockerhub}'
             }
                 
-                sh 'docker push tabrezid54/${imageName}'
+                sh 'docker push ${dockerHubUser}/${imageName}'
                 
             }
         
         }
-        stage('Doeploy K8s Resorces') {
+        stage('Deploy K8s Resorces') {
             steps {
                 sh 'kubectl create -f $WORKSPACE/kubernetes-manifest/.'
                 
