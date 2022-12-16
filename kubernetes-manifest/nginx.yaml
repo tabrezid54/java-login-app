@@ -17,7 +17,7 @@ data:
 
             location / {
 
-                proxy_pass http://java-app-svc.default.svc.cluster.local:8080;
+                proxy_pass http://java-app-svc.default.svc.cluster.local:8080/dptweb-1.0/pages/login.jsp;
                 proxy_redirect off;
                 proxy_set_header Host $host;
                 proxy_set_header X-Real-IP $remote_addr;
