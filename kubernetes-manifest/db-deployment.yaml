@@ -24,6 +24,8 @@ spec:
               value : "password"
             - name: MYSQL_DATABASE 
               value : "UserDB"
+            - name: MYSQL_USER  
+              value : "tab"
           ports:
             - containerPort: 3306
               name: mysql
