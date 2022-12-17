@@ -1,7 +1,7 @@
-FROM mysql:5.7
+FROM mysql:8.0
 ENV MYSQL_DATABASE UserDB
 ENV MYSQL_USER tab
-ENV MYSQL_USER password
+ENV MYSQL_PASSWORD Tab123
 ENV MYSQL_ROOT_PASSWORD password
 COPY ./sql-scripts/ /docker-entrypoint-initdb.d/
 EXPOSE 3306
