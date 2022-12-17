@@ -25,4 +25,4 @@ spec:
             - name: MYSQL_USER  
               value : "tab"
             - name: MYSQL_PASSWORD 
-              value : "password"
+              value : "Tab123"
