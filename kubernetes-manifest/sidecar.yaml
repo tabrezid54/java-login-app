@@ -36,18 +36,62 @@ spec:
           ports:
             - containerPort: 3306
               name: mysql
+        - name: nginx
+          image: nginx
+          ports:
+           - containerPort: 80
+          volumeMounts:
+              - name: nginx-conf
+                mountPath: /etc/nginx/nginx.conf
+                subPath: nginx.conf
+                readOnly: true
+      volumes:
+      - name: nginx-conf
+        configMap:
+          name: nginx-conf
+          items:
+            - key: nginx.conf
+              path: nginx.conf
+
 
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: java-app-svc
+  name: nginx
 spec:
   type: NodePort
-  selector:
-    app: java-app
   ports:
-    - protocol: "TCP"
-      port: 8080
-      nodePort: 30008
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+    nodePort: 30010
+  selector:
+    app: nginx
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-conf
+data:
+  nginx.conf: |
+    worker_processes 1;
+    events { worker_connections 1024; }
+    http {
+        sendfile on;
+        server {
+            listen 80;
+            location / {
+                proxy_pass http://localhost:8080;
+                proxy_redirect off;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Host $server_name;
+            }
+        }
+    }
+
